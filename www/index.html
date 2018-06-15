@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="css/circle.css">
 
   <script>
-    //database
+    //database key 
     //var ncmb = new NCMB("110bd92fd08b667727f46a321bb903bacc49babf679332505f8ce751c1c38ce4","19fff4af2112fbfc38b048dae80f6c5c629732e81ce1848622659c12d70c1b7b");
 
     ons.ready(function() {
@@ -28,6 +28,19 @@
 </head>
 <body>
   <ons-navigator id="myNavigator" var="myNavigator" page="tab.html"></ons-navigator> 
+  
+  <ons-template id="tab.html">
+    <ons-page>
+      <ons-tabbar position="auto">
+        <ons-tab label="Tab 3" icon="list" page="page3.html">
+        </ons-tab>
+        <ons-tab label="Tab 1" icon="home" page="page1.html" active="true">
+        </ons-tab>
+        <ons-tab label="Tab 2" icon="user" page="page2.html" id="test-button">
+        </ons-tab>
+      </ons-tabbar>
+    </ons-page>
+  </ons-template>
 
     <!----Homeページ ---->
   <ons-template id="page1.html">
