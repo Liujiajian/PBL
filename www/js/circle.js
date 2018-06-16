@@ -1,24 +1,24 @@
 // This is a JavaScript file
 // This is a JavaScript file
-window.onload = function(){
-  
+
+  function circle(){
+        
         var circleBar    = document.getElementsByClassName('circle-bar')[0];
         var countTime = parseInt(localStorage.getItem("SportTime_Count"));
         var targetTime = parseInt(localStorage.getItem("TargetTime"));
-        var percent =  (countTime/targetTime)*100;
-        var color        = circleBar.css('background-color');
+        var percent =  Math.round((countTime/targetTime)*100);
+        console.log(percent);
         var left_circle  = circleBar.getElementsByClassName('circle-bar-left')[0];
         var right_circle = circleBar.getElementsByClassName('circle-bar-right')[0];
 
         if( percent <= 50 ) {
             var rotate = 'rotate('+(percent*3.6)+'deg)';
             right_circle.css3('transform',rotate);
-        }else {
+        } else {
             var rotate = 'rotate('+((percent-50)*3.6)+'deg)';
-            right_circle.css ('background-color',color);
             right_circle.css3('transform','rotate(0deg)');
-            left_circle.css3 ('transform',rotate);
-        }
+            left_circle.css3('transform',rotate);
+        } 
     }
 
     Element.prototype.css = function(property,value){

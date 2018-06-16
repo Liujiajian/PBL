@@ -88,9 +88,9 @@
           </ons-list-item>
       </ons-list>
       
-      <ons-fab position="bottom right">
+      <!--ons-fab position="bottom right">
         <ons-icon icon="md-plus" id="Add_Btn"></ons-icon>
-      </ons-fab>
+      </ons-fab-->
         <!--Memo-->
 
     </ons-page>
@@ -100,7 +100,7 @@
   <ons-template id="page2.html">
     <ons-page id="second-page">
       <ons-toolbar class="toolbar">
-        <div class="left"><ons-toolbar-button>Home</ons-toolbar-button></div>
+        <!--div class="left"><ons-toolbar-button>編集</ons-toolbar-button></div-->
         <div class="center">個人ページ</div>
         <div class="right">
           <ons-toolbar-button onclick="document.querySelector('#myNavigator').pushPage('AddUserdata.html') ">入力</ons-toolbar-button>
@@ -124,6 +124,22 @@
       <ons-list-item>
           <p class="user_data3"></p>
       </ons-list-item>
+      <ons-card >
+        <div class="title">
+          おすすめ運動
+        </div>
+      </ons-card>
+
+      <ons-card >
+        <div class="title">
+          成人の個人目標
+        </div>
+        <li>日頃から「散歩」、「早く歩く」、「乗り物やエレベータを使わずに歩くようにする」など意識的に身体を動かしましょう</li>
+        <li>1日平均1万歩以上歩くことを目標に</li>
+        <li>週2回以上、1回30分以上の息が少しはずむ程度の運動を習慣に</li>
+        <li>最初の運動としてはまずウォーキングから</li>
+      </ons-card>
+      
 
 
     </ons-page>
@@ -132,7 +148,7 @@
   <ons-template id="page3.html">
     <ons-page id="third-page">
       <ons-toolbar>
-        <div class="right"><ons-button id="reload">更新</ons-button></div>
+        <!--div class="right"><ons-button id="reload">更新</ons-button></div-->
         <div class="center">レポート</div>
       </ons-toolbar>
       <ons-list>

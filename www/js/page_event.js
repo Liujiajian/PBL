@@ -6,12 +6,15 @@ document.addEventListener('init', function(event) {
       if (page.matches('#first-page')) {
        // titleElement.innerHTML = 'My app - ホームページ';
         var target_time;
-        var sport_time_count = 0;
+        var sport_time_count=0;
+
         ons.ready(function() { 
             var show_target_time = parseInt(localStorage.getItem("TargetTime"))/3600;
             page.querySelector('div .percent').innerHTML = show_target_time.toFixed(1)+"h";
+            circle();
         });
         page.querySelector('#target_prompt').onclick =　function disp_prompt() {  
+          sport_time_count=0;
           var time = prompt("目標の運動時間(時単位)","10")*3600; // 弹出input框 
           /*if (localStorage.getItem("sportKey) >= localStorage.getItem("targetKey")){
                 localStorage.removeItem("targetKey");
@@ -22,9 +25,10 @@ document.addEventListener('init', function(event) {
           }
           */
           localStorage.setItem("TargetTime",time); 
+          localStorage.setItem("SportTime_Count",sport_time_count);
           var show_target_time = parseInt(localStorage.getItem("TargetTime"))/3600;
           page.querySelector('div .percent').innerHTML = show_target_time.toFixed(1)+"h";
-          target_time = time;
+          circle();
           //return target_time;
         } 
         
@@ -43,7 +47,6 @@ document.addEventListener('init', function(event) {
             minute.innerHTML="00 ";
             second.innerHTML="00 ";
             localStorage.setItem("SportTime",0);
-            console.log(localStorage.getItem("SportTime"));
 
           }
 
@@ -89,18 +92,25 @@ document.addEventListener('init', function(event) {
         var timer_memo = document.getElementById("timer_memo").value;
         var sport_time = parseInt(localStorage.getItem("SportTime"));
         var target_time = parseInt(localStorage.getItem("TargetTime"));
+
         sport_timeA=sport_time + time_input;
         sport_time_count = sport_time_count + sport_timeA;
         localStorage.setItem("SportTime_Count",sport_time_count);
         var rest_time = (target_time - sport_time_count)/3600;
-        console.log(rest_time);
         if (sport_time_count < target_time){
           page.querySelector('div .percent').innerHTML = rest_time.toFixed(1)+"h";
-          page.querySelector('ons-list-item .show_Vue').innerHTML += timer_sport+": "+(sport_timeA/60)+"分    Memo:"+timer_memo+"<br />";
-
+          page.querySelector('ons-list-item .show_Vue').innerHTML += timer_sport+": "+(sport_timeA/60).toFixed(0)+"分    Memo:"+timer_memo+"<br />";
+          circle();
         }else{
+          circle();
           alert("目標達成!!!");
-          localStorage.setItem("SportTime_Count_ALL",sport_time_count);
+          
+          var timeall = parseInt(localStorage.getItem("SportTime_Count_ALL"));
+          timeall = timeall + sport_time_count;
+          localStorage.setItem("SportTime_Count_ALL",timeall);
+          
+          page.querySelector('div .percent').innerHTML = rest_time.toFixed(1)+"h";
+          page.querySelector('ons-list-item .show_Vue').innerHTML += timer_sport+": "+(sport_timeA/60).toFixed(0)+"分    Memo:"+timer_memo+"<br />";
           var tank = tank + 1;
           localStorage.setItem("Tank",tank);
           localStorage.removeItem("TargetTime");
@@ -134,7 +144,8 @@ document.addEventListener('init', function(event) {
           ons.ready(function() { 
             var weight = localStorage.getItem("Weight");
             var height = localStorage.getItem("Height");
-            var b_year = localStorage.getItem("Birthday").substr(0, 4); 
+            var b_year = localStorage.getItem("Birthday");
+            b_year = b_yearsubstr(0, 4); 
             var date = new Date();
             var n_year = date.getFullYear(); 
             var age = n_year - b_year;
@@ -216,7 +227,7 @@ document.addEventListener('init', function(event) {
       } else if (page.matches('#third-page')){
 
         var tank_number = parseInt(localStorage.getItem("Tank"));
-        var sport_time_all=parseInt(localStorage.getItem("SportTime_Count_ALL"))/3600;
+        var sport_time_all=Math.round(parseInt(localStorage.getItem("SportTime_Count_ALL"))/3600);
         page.querySelector('div .sport_time').innerHTML =sport_time_all+"時間";
         page.querySelector('div .tank_number').innerHTML = "目標完成数: "+tank_number;
         var change_weight =0;
@@ -240,8 +251,9 @@ document.addEventListener('init', function(event) {
 
 
 
+
         var data1 = {
-            labels: ["一月", "二月", "三月", "四月", "五月", "六月"],
+            labels: ["Tank1", "Tank2", "Tank3", "Tank4", "Tank5", "Tank1"],
             datasets: [
                 {
                     label: "運動時間",
@@ -260,7 +272,7 @@ document.addEventListener('init', function(event) {
                                       'rgba(153, 102, 255, 1)',
                                       'rgba(255, 159, 64, 1)'
                                    ],
-                    data: [10, 12, 11, 10, 11, 13],
+                    data: [sport_time_all, 0, 0, 0, 0, 0],
                     borderWidth: 1
                 }
             ]
