@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <script src="components/loader.js"></script>
+    <script src="lib/onsenui/js/onsenui.min.js"></script> 
+
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+      function test(){
+        var ncmb = new NCMB("110bd92fd08b667727f46a321bb903bacc49babf679332505f8ce751c1c38ce4","19fff4af2112fbfc38b048dae80f6c5c629732e81ce1848622659c12d70c1b7b");
+      
+        ncmb.User.equalTo("mailAddress","a1748jl@aiit.ac.jp")
+               .fetchAll()
+               .then(function(data){
+                  for (var i = 0; i < data.length; i++) {
+                    var object = data[i];
+                    var username = object.get("userName");
+                    console.log(username);
+                    localStorage.setItem("LoginUsername",username);
+                    console.log(localStorage.getItem("LoginUsername"));
+                  }
+                  alert("hahahaha");
+                })
+                .catch(function(err){
+                       // エラー処理  
+                      console.log("catchNameに失敗しました1：\n" + error);
+                      return;
+                });
+      }
+
+     function save_objectId(){
+        var ncmb = new NCMB("110bd92fd08b667727f46a321bb903bacc49babf679332505f8ce751c1c38ce4","19fff4af2112fbfc38b048dae80f6c5c629732e81ce1848622659c12d70c1b7b");
+        ncmb.User.equalTo("userName","liu")
+                 .fetchAll()
+                 .then(function(results){
+                          for (var i = 0; i < results.length; i++) {
+                              var object = results[i];
+                              var objectId = object.get("userName");
+                              
+                              localStorage.setItem("objectId", objectId);
+                              alert(localStorage.getItem("objectId"));
+                                                            
+                            }
+                          
+                            
+                 })
+                 .catch(function(error){
+                        console.log("objectId保存エラー");
+                        return;
+                 });
+
+        var testid = localStorage.getItem("objectId");
+        //alert(testid);
+      }
+      function send_email01(){
+        var ncmb = new NCMB("110bd92fd08b667727f46a321bb903bacc49babf679332505f8ce751c1c38ce4","19fff4af2112fbfc38b048dae80f6c5c629732e81ce1848622659c12d70c1b7b");
+        ncmb.User.requestSignUpEmail("a1748jl@aiit.ac.jp")
+                 .then(function(data){
+                  // 送信後処理
+                    alert("成功");
+                  })
+                 .catch(function(err){
+                  // エラー処理
+                    alert("エラー");
+                  });
+      }
+
+      function send_email02(){
+        monaca.cloud.User.register("username", "password", {age:21,email})
+        .done(function(result){
+          console.log("Welcome, " + result.user._username);
+          console.log("You are " + result.user.age + " years old.");
+        })
+        .fail(function(err){
+          console.log("Err#" + err.code +": " + err.message);
+        });
+    }
+
+    function send_email03(){
+        var ncmb = new NCMB("110bd92fd08b667727f46a321bb903bacc49babf679332505f8ce751c1c38ce4","19fff4af2112fbfc38b048dae80f6c5c629732e81ce1848622659c12d70c1b7b");
+        var user = new ncmb.User();
+        user.set("userName", "akb123")
+            .set("password", "akb123")
+            .set("mailAddress", "liujia4203@gmail.com")
+            .set("sex", "男性")
+            .set("Birthday", "1992-01-01")
+            .set("height", "176")
+            .set("weight", "60")
+
+        user.signUpByAccount()
+            .then(function(data){
+              // 送信後処理
+              alert("成功");
+            })
+            .catch(function(err){
+             // エラー処理
+              alert("エラー");
+            });
+      }
+      
+        //
+        // TODO: Write JavaScript code here
+        //
+    </script>
+</head>
+<body>
+    <!-- TODO: Please edit here -->
+    <ons-button onclick="test()">send</ons-button>
+</body>
+</html>

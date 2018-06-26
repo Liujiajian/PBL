@@ -1,6 +1,8 @@
 // This is a JavaScript file
 document.addEventListener('init', function(event) {
       var page = event.target;
+      var ncmb = new NCMB("110bd92fd08b667727f46a321bb903bacc49babf679332505f8ce751c1c38ce4","19fff4af2112fbfc38b048dae80f6c5c629732e81ce1848622659c12d70c1b7b");
+
       //var titleElement = document.querySelector('#toolbar-title');
 
       if (page.matches('#first-page')) {
@@ -118,112 +120,111 @@ document.addEventListener('init', function(event) {
           sport_time_count = 0;
           
         }
-        
-
-
-        //console.log(target_time,timer_sport,sport_time,timer_memo);
-        /*//Send the data to database
-        var TimeClass = ncmb.DataStore("TimeClass");
-        var TimeClass = new TimeClass();
-        TimeClass.set("TargetTime", target_time)
-                   .set("SportType", timer_sport)
-                   .set("SportTime", sport_time)
-                   .set("Memo", timer_memo)
-                   .save()
-                   .then(function(object){
-             // 保存に成功した場合の処理
-                  document.querySelector('#myNavigator').pushPage('tab.html');
-                })
-                   .catch(function(err){
-             // 保存に失敗した場合の処理
-          });*/
       }
       } else if (page.matches('#second-page')) {
         //titleElement.innerHTML = 'My app - 個人ページ';AddUserdata.html
         
           ons.ready(function() { 
-            var weight = localStorage.getItem("Weight");
-            var height = localStorage.getItem("Height");
-            var b_year = localStorage.getItem("Birthday");
-            b_year = b_yearsubstr(0, 4); 
-            var date = new Date();
-            var n_year = date.getFullYear(); 
-            var age = n_year - b_year;
+            //localStorage.clear();
+            var key1,key2;
+            var LoginUsername = localStorage.getItem("LoginUsername");
+            var LoginEmail = localStorage.getItem("LoginEmail");
+            if(LoginUsername == undefined && LoginEmail == undefined){
+              var mychar1 = document.getElementById('signup').style.display="block";
+              var mychar2 = document.getElementById('logout').style.display="none";
+            } else {
+              var mychar1 = document.getElementById('signup').style.display="none";
+              var mychar2 = document.getElementById('logout').style.display="block";
+              if (LoginUsername == undefined ){
+                key1 = "mailAddress";
+                key2 = LoginEmail;
 
-            page.querySelector('ons-list-item .user_data1').innerHTML = localStorage.getItem("Username");
-            if(localStorage.getItem("UserSex") == 1){
-                    var sex_text = '男性';
-                    var bmr =10*weight + 6.25*height - 5*age + 5;
-                }else{
-                    var sex_text = '女性';
-                    var bmr =10*weight + 6.25*height  -5*age - 161;
-                }
-                page.querySelector('ons-list-item .user_data2').innerHTML = "年齢: "+age+"　 性別: "+sex_text+"<br />";
-                page.querySelector('ons-list-item .user_data2').innerHTML += "身長: "+height+"cm 　体重: "+weight+"Kg  ";
-            
-                var bmi=weight/(height*height/10000);
-                page.querySelector('ons-list-item .user_data3').innerHTML += "BMI: "+Math.round(bmi*100)/100+"<br />";
-                var message = "あなたは";
-                if(bmi < 18.5) {
-                  message += "低体重(痩せ型)です。";
-                } else if (bmi >= 18.5 && bmi < 25) {
-                  message += "普通体重です。";
-                } else if (bmi >= 25 && bmi < 30) {
-                  message += "肥満(1度)です。";
-                } else if (bmi >= 30 && bmi < 35) {
-                  message += "肥満(2度)です。";
-                } else if (bmi >= 35 && bmi < 40) {
-                  message += "肥満(3度)です。";
-                } else if (bmi >= 40) {
-                  message += "肥満(4度)です。";
-                }
-                
-                page.querySelector('ons-list-item .user_data3').innerHTML += "BMR: "+bmr+"<br />";
-                page.querySelector('ons-list-item .user_data3').innerHTML += message+"<br />";
-                
-
-
-          /* //get the data from database
-          var UserdataClass = ncmb.DataStore("UserdataClass");
-          UserdataClass.fetchAll()
-            .then(function(results){
-              for (var i = 0; i < results.length; i++) {
-                var object = results[i];
-                page.querySelector('ons-list-item .user_data1').innerHTML = object.get("username");
-                if(object.get("sex") == 1){
-                    var sex_text = '男性';
-                }else{
-                    var sex_text = '女性';
-                }
-                page.querySelector('ons-list-item .user_data2').innerHTML = "生年月日: "+object.get("birthday")+"　 性別: "+sex_text;
-                page.querySelector('ons-list-item .user_data2').innerHTML += "<br />身長: "+object.get("height")+"cm 　体重: "+object.get("weight")+"Kg  ";
-                var weight = object.get("weight");
-                var height = object.get("height");
-                var bmi=weight/(height*height/10000);
-                page.querySelector('ons-list-item .user_data2').innerHTML += "BMI: "+Math.round(bmi*100)/100+"<hr />";
-                var message = "あなたは";
-                if(bmi < 18.5) {
-                  message += "低体重(痩せ型)です。";
-                } else if (bmi >= 18.5 && bmi < 25) {
-                  message += "普通体重です。";
-                } else if (bmi >= 25 && bmi < 30) {
-                  message += "肥満(1度)です。";
-                } else if (bmi >= 30 && bmi < 35) {
-                  message += "肥満(2度)です。";
-                } else if (bmi >= 35 && bmi < 40) {
-                  message += "肥満(3度)です。";
-                } else if (bmi >= 40) {
-                  message += "肥満(4度)です。";
-                }
-                page.querySelector('ons-list-item .user_data2').innerHTML += message+"<br />";
-
-
+              } else if(LoginEmail == undefined){
+                key1 = "userName";
+                key2 = LoginUsername;
               }
-            })
-            .catch(function(err){
-              console.log(err);
-            });*/
-        }); 
+            }
+          
+            ncmb.User.equalTo(key1, key2)
+                     .fetchAll()
+                     .then(function(results){
+                            for (var i = 0; i < results.length; i++) {
+                              var object = results[i];
+                              var username = object.get("userName");
+                              var sex = object.get("sex");
+                              var birthday = object.get("Birthday");
+                              var height = object.get("height");
+                              var weight = object.get("weight");
+                            }
+                            var b_year = birthday.substr(0, 4);
+                            var b_monday =  birthday.substr(5, 2) + birthday.substr(8, 2);
+                            var date = new Date();
+                            var n_year = date.getFullYear(); 
+                            var n_month = date.getMonth()+1;
+                            var n_date = date.getDate();
+                            var n_monday = Appendzero(n_month) + Appendzero(n_date);
+                            var age = n_year - b_year - 1;
+
+                            if ( n_monday >= b_monday){
+                              age = age + 1
+                            }
+
+                            if(sex == "男性"){
+                              var bmr =10*weight + 6.25*height - 5*age + 5;
+                            }else{
+                              var bmr =10*weight + 6.25*height  - (5*age + 161);
+                            }
+
+                            var bmi=weight/(height*height/10000);
+               
+                            var message = "あなたは";
+                            if(bmi < 18.5) {
+                              message += "低体重(痩せ型)です。";
+                              message1 = "日頃から「散歩」、「早く歩く」、「乗り物やエレベータを使わずに歩くようにする」など意識的に身体を動かしましょう";
+                              message2 = "週2回以上、1回1時間以上の息が少しはずむ程度の運動を習慣に";
+                              message3 = "ゴルフ、ターゲットバードゴルフ、ミニゴルフなど";
+                            } else if (bmi >= 18.5 && bmi < 25) {
+                              message += "普通体重です。";
+                              message1 = "日頃から「散歩」、「早く歩く」、「乗り物やエレベータを使わずに歩くようにする」など意識的に身体を動かしましょう";
+                              message2 = "週2回以上、1回30分以上の息が少しはずむ程度の運動を習慣に";
+                              message3 = "1日平均1万歩以上歩くことを目標に、すべて運動もいい、ジョギング、エアロビクスなど";
+                            } else if (bmi >= 25 && bmi < 30) {
+                              message += "肥満(1度)です。";
+                              message1 = "日頃から「散歩」、「乗り物やエレベータを使わずに歩くようにする」など意識的に身体を動かしましょう";
+                              message2 = "週2回以上、1回1時間以上の息が少しはずむ程度の運動を習慣に";
+                              message3 = "ゴルフ、ターゲットバードゴルフ、ミニゴルフなど";
+                            } else if (bmi >= 30 && bmi < 35) {
+                              message += "肥満(2度)です。";
+                              message1 = "ダイエットの意識を持ち、健康のために運動を始める";
+                              message2 = "週2回以上、1回2時間以上の息が少しはずむ程度の運動を習慣に";
+                              message3 = "ハイキング、ピクニック、オリエンテーリング、キャンピングなど";
+                            } else if (bmi >= 35 && bmi < 40) {
+                              message += "肥満(3度)です。";
+                              message1 = "ダイエットの意識を持ち、健康のために運動を始める";
+                              message2 = "週2回以上、1回1時間以上の息が少しはずむ程度の運動を習慣に";
+                              message3 = "ハイキング、ピクニック、オリエンテーリング、キャンピングなど";
+                            } else if (bmi >= 40) {
+                              message += "肥満(4度)です。";
+                              message1 = "日頃から「散歩」、健康など意識的に身体を動かしましょう";
+                              message2 = "週2回以上、1回30分以上の息が少しはずむ程度の運動を習慣に";
+                              message3 = "日頃から「散歩」、1日平均5000歩以上歩くことを目標に";
+                            }
+                            page.querySelector('ons-list-item .user_data1').innerHTML = username;
+                            page.querySelector('ons-list-item .user_data2').innerHTML = "年齢: "+age+"　 性別: "+sex;
+                            page.querySelector('ons-list-item .user_data2').innerHTML += "<br />身長: "+height+"cm 　体重: "+weight+"Kg  ";
+                            page.querySelector('ons-list-item .user_data3').innerHTML += "BMI: "+Math.round(bmi*100)/100+"<br />";
+                            page.querySelector('ons-list-item .user_data3').innerHTML += "基礎代謝: "+bmr+"kcl<br />";
+                            page.querySelector('ons-list-item .user_data3').innerHTML += message+"<br />";
+                            page.querySelector('ons-card .recommend_target1').innerHTML = message1+"<br />";
+                            page.querySelector('ons-card .recommend_target2').innerHTML = message2+"<br />";
+                            page.querySelector('ons-card .recommend_target3').innerHTML = message3+"<br />";
+
+                        })
+                        .catch(function(err){
+                          console.log(err);
+                        });
+
+          }); 
       } else if (page.matches('#third-page')){
 
         var tank_number = parseInt(localStorage.getItem("Tank"));
@@ -323,40 +324,16 @@ document.addEventListener('init', function(event) {
         }
       
       } else if (page.matches('#AddUser')){
-          page.querySelector('#push-button').onclick = function() {
-          var username　=　document.getElementById("user_name").value;
-          var height　=　document.getElementById("user_height").value;
-          var weight　=　document.getElementById("user_weight").value;
-          var birthday　=　document.getElementById("user_birthday").value;
-          var sex　=　document.getElementById("user_sex").value;
-
-          //Save the data in local
-          localStorage.setItem("Username",username);
-          localStorage.setItem("Height",height);
-          localStorage.setItem("Weight",weight);
-          localStorage.setItem("Birthday",birthday);
-          localStorage.setItem("UserSex",sex); 
-
-          document.querySelector('#myNavigator').pushPage('tab.html');
-
-          /* //Send the userdata to database 
-          var UserdataClass = ncmb.DataStore("UserdataClass");
-          var UserdataClass = new UserdataClass();
-
-          UserdataClass.set("username", username)
-                   .set("height", height)
-                   .set("weight", weight)
-                   .set("birthday", birthday)
-                   .set("sex", sex)
-                   .save()
-                   .then(function(object){
-             // 保存に成功した場合の処理
-                  document.querySelector('#myNavigator').pushPage('tab.html');
-                })
-                   .catch(function(err){
-             // 保存に失敗した場合の処理
-          }); */
-
-        };
+          
       }
     });
+
+function Appendzero(obj)  
+{  
+  if(obj<10){
+    return "0" +""+ obj;
+  }      
+  else {
+    return obj; 
+  } 
+}  
